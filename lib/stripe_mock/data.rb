@@ -159,6 +159,7 @@ module StripeMock
         livemode: false,
         paid: true,
         amount: 0,
+        application: nil,
         application_fee: nil,
         currency: currency,
         destination: nil,

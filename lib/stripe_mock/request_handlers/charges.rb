@@ -48,6 +48,10 @@ module StripeMock
 
         balance_transaction_id = new_balance_transaction('txn', bal_trans_params)
 
+        if headers[:stripe_account]
+          params[:application] = headers[:stripe_account]
+        end
+
         charges[id] = Data.mock_charge(
             params.merge :id => id,
             :balance_transaction => balance_transaction_id)
