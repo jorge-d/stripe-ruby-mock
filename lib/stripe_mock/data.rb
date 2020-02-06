@@ -101,6 +101,22 @@ module StripeMock
       }.merge(params)
     end
 
+    def self.mock_tax_rate(params)
+      {
+        id: 'test_cus_default',
+        object: 'tax_rate',
+        active: true,
+        created: 1559079603,
+        description: nil,
+        display_name: 'VAT',
+        inclusive: false,
+        jurisdiction: 'EU',
+        livemode: false,
+        metadata: {},
+        percentage: 21.0
+      }.merge(params)
+    end
+
     def self.mock_customer(sources, params)
       cus_id = params[:id] || "test_cus_default"
       currency = params[:currency] || StripeMock.default_currency
@@ -111,6 +127,7 @@ module StripeMock
         object: "customer",
         created: 1372126710,
         id: cus_id,
+        name: nil,
         livemode: false,
         delinquent: false,
         discount: nil,
@@ -336,7 +353,10 @@ module StripeMock
       lines << Data.mock_line_item() if lines.empty?
       invoice = {
         id: 'in_test_invoice',
-        date: 1349738950,
+        status: 'open',
+        invoice_pdf: 'pdf_url',
+        hosted_invoice_url: 'hosted_invoice_url',
+        created: 1349738950,
         period_end: 1349738950,
         period_start: 1349738950,
         lines: {
@@ -357,12 +377,13 @@ module StripeMock
         paid: false,
         receipt_number: nil,
         statement_descriptor: nil,
-        tax: nil,
+        tax: 10,
         tax_percent: nil,
         webhooks_delivered_at: 1349825350,
         livemode: false,
         attempt_count: 0,
-        amount_due: nil,
+        amount_due: 100,
+        amount_paid: 0,
         currency: currency,
         starting_balance: 0,
         ending_balance: nil,
@@ -397,6 +418,11 @@ module StripeMock
           start: 1349738920,
           end: 1349738920
         },
+        tax_amounts: [
+          {
+            amount: 10
+          }
+        ],
         quantity: nil,
         subscription: nil,
         plan: nil,
@@ -410,7 +436,7 @@ module StripeMock
       {
         id: "test_ii",
         object: "invoiceitem",
-        date: 1349738920,
+        created: 1349738920,
         amount: 1099,
         livemode: false,
         proration: false,
@@ -508,6 +534,21 @@ module StripeMock
         name: "The Basic Plan",
         statement_descriptor: nil,
         trial_period_days: nil
+      }.merge(params)
+    end
+
+    def self.mock_product(params = {})
+      {
+        id: "default_test_prod",
+        object: "product",
+        active: true,
+        created: 1556896214,
+        livemode: false,
+        metadata: {},
+        name: "Default Test Product",
+        statement_descriptor: "PRODUCT",
+        type: "service",
+        updated: 1556918200,
       }.merge(params)
     end
 
